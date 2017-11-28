@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import os,sys
 from PIL import Image
 
+import cv2
+
 
 
 def img_float_to_uint8(img):
@@ -45,11 +47,63 @@ def img_crop(im, w, h):
 
 # ***** Features extraction *****
 
-# Extract 6-dimensional features consisting of average RGB color as well as variance
+def extract_Sobel_filter(data_in): 
+    """ Function to run Sobel filters (x and y)
+        parameters: - original image
+        return:     - Both Sobel filters concatenated
+    """
+    gray_image = cv2.cvtColor(data_in, cv2.COLOR_BGR2GRAY)
+    
+    one_layer_shape = [gray_image.shape[0], gray_image.shape[1], 1]
+    gray_image = np.reshape(gray_image, one_layer_shape)
+    
+    # Sobel X
+    # Output dtype = cv2.CV_64F, take absolute, convert to int
+    sobelx64f = cv2.Sobel(gray_image, cv2.CV_64F, 1, 0, ksize = 5)
+    sobelx8u = np.uint8(np.absolute(sobelx64f))
+    
+    # Sobel Y
+    # Output dtype = cv2.CV_64F, take absolute, convert to int
+    sobelx64f = cv2.Sobel(gray_image, cv2.CV_64F, 0, 1, ksize = 5)
+    sobely8u = np.uint8(np.absolute(sobelx64f))
+    
+    # Concatenate Sobel filters to input image
+    sobelx8u = np.reshape(sobelx8u, one_layer_shape)
+    sobely8u = np.reshape(sobely8u, one_layer_shape)
+    data_out = np.concatenate((sobelx8u, sobely8u), axis = 2)
+
+    return data_out
+
+def extract_Laplacian_filter(data_in):
+    """ Function to run Laplacian filters
+        parameters: - original image
+        return:     - Laplacian filter
+    """
+    gray_image = cv2.cvtColor(data_in, cv2.COLOR_BGR2GRAY)
+    
+    one_layer_shape = [gray_image.shape[0], gray_image.shape[1], 1]
+    gray_image = np.reshape(gray_image, one_layer_shape)
+    
+    # Laplacian
+    # Output dtype = cv2.CV_64F, take absolute, convert to int
+    laplacian64f = cv2.Laplacian(gray_image, cv2.CV_8U, ksize = 3)
+    laplacian8u = np.uint8(laplacian64f)
+   
+    # Concatenate Laplacian filter to input image
+    laplacian8u = np.reshape(laplacian8u, one_layer_shape)
+
+    return laplacian8u
+
+# Extract mean and var of each layer in the 3rd dimension 
 def extract_features(img):
+    res_Sobel = extract_Sobel_filter(img)
+    # res_Laplacian = extract_Laplacian_filter(img)
+    data_out = np.concatenate((img, res_Sobel), axis = 2)
+    
     feat_m = np.mean(img, axis=(0,1))
     feat_v = np.var(img, axis=(0,1))
     feat = np.append(feat_m, feat_v)
+    
     return feat
 
 # Extract 2-dimensional features consisting of average gray color as well as variance
@@ -60,13 +114,11 @@ def extract_features_2d(img):
     return feat
 
 # Extract features for a given image
-def extract_img_features(filename, num_feat):
+def extract_img_features(filename):
     img = load_image(filename)
     img_patches = img_crop(img, patch_size, patch_size)
-    if num_feat == 2:
-        X = np.asarray([ extract_features_2d(img_patches[i]) for i in range(len(img_patches))])
-    elif num_feat == 6:
-        X = np.asarray([ extract_features(img_patches[i]) for i in range(len(img_patches))])
+    
+    X = np.asarray([ extract_features(img_patches[i]) for i in range(len(img_patches))])
     return X
 
 def features_augmentation(X):
