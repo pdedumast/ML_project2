@@ -3,10 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os,sys
 from PIL import Image
+import matplotlib.image as mpimg
 
 import cv2
 
-
+def load_image(infilename):
+    data = mpimg.imread(infilename)
+    return data
 
 def img_float_to_uint8(img):
     rimg = img - np.min(img)
@@ -99,6 +102,7 @@ def extract_features(img):
     res_Sobel = extract_Sobel_filter(img)
     # res_Laplacian = extract_Laplacian_filter(img)
     data_out = np.concatenate((img, res_Sobel), axis = 2)
+    img = data_out
     
     feat_m = np.mean(img, axis=(0,1))
     feat_v = np.var(img, axis=(0,1))
@@ -114,7 +118,7 @@ def extract_features_2d(img):
     return feat
 
 # Extract features for a given image
-def extract_img_features(filename):
+def extract_img_features(filename, patch_size = 16):
     img = load_image(filename)
     img_patches = img_crop(img, patch_size, patch_size)
     
@@ -129,7 +133,7 @@ def features_augmentation(X):
 
 def normalize(X):
     for i in range(X.shape[0]):
-        d = data[i,:,:]
+        d = X[i,:,:]
         d -= np.mean(d) 
         d /= np.linalg.norm(d) 
 
