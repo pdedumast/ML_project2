@@ -136,6 +136,55 @@ def normalize(X):
         # Update value
         X[i] = d 
         return X
+    
+def demean_images(imgs):
+    ''' Demean the input images'''
+    mean_vec = np.zeros((3,1))
+    for img in imgs:
+        is_2d = len(img.shape) < 3
+        if(is_2d):
+            img -= np.mean(img)
+        else:
+            mean_vec[0] = np.mean(img[:,:,0])
+            img[:,:,0] -= np.mean(img[:,:,0])
+            
+            mean_vec[1] = np.mean(img[:,:,1])
+            img[:,:,1] -= np.mean(img[:,:,1])
+            
+            mean_vec[2] = np.mean(img[:,:,2]) 
+            img[:,:,2] -= np.mean(img[:,:,2])
+            
+    demean_imgs = imgs
+    return demean_imgs, mean_vec
+
+def normalize_images(imgs):
+    ''' Normalize the input images'''
+    std_vec = np.zeros((3,1))
+
+    for img in imgs:
+        is_2d = len(img.shape) < 3
+        if(is_2d):
+            img /= np.std(img)
+        else:
+            std_vec[0] = np.std(img[:,:,0])
+            img[:,:,0] /= np.std(img[:,:,0])
+            
+            std_vec[1] = np.std(img[:,:,1])
+            img[:,:,1] /= np.std(img[:,:,1])
+
+            std_vec[2] = np.std(img[:,:,2])
+            img[:,:,2] /= np.std(img[:,:,2])
+            
+    normalized_imgs = imgs
+    return normalized_imgs, std_vec
+
+def standardize(imgs):
+    ''' Demean and normalize the input images'''
+    demean_imgs, mean_vec = demean_images(imgs)
+    normalized_imgs, std_vec = normalize_images(demean_imgs)
+    
+    standardized_imgs = normalized_imgs
+    return standardized_imgs, mean_vec, std_vec
 
 
 # ***** Convert array of labels to an image *****
