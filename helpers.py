@@ -33,6 +33,20 @@ def concatenate_images(img, gt_img):
         cimg = np.concatenate((img8, gt_img_3c), axis=1)
     return cimg
 
+def img_crop_train(im, w, h, step = 8):
+    list_patches = []
+    imgwidth = im.shape[0]
+    imgheight = im.shape[1]
+    is_2d = len(im.shape) < 3
+    for i in range(0,imgheight - step, step):
+        for j in range(0,imgwidth - step, step):
+            if is_2d:
+                im_patch = im[j:j+w, i:i+h]
+            else:
+                im_patch = im[j:j+w, i:i+h, :]
+            list_patches.append(im_patch)
+    return list_patches
+
 def img_crop(im, w, h):
     list_patches = []
     imgwidth = im.shape[0]
@@ -190,6 +204,13 @@ def standardize(imgs):
     standardized_imgs = normalized_imgs
     return standardized_imgs, mean_vec, std_vec
 
+def standardize_data(x):
+    """Standardize the original data set."""   
+    mean_x = np.mean(x)
+    x = x - mean_x
+    std_x = np.std(x)
+    x = x / std_x
+    return x, mean_x, std_x
 
 # ***** Convert array of labels to an image *****
 
