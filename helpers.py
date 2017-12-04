@@ -6,6 +6,7 @@ from PIL import Image
 import matplotlib.image as mpimg
 
 import cv2
+from scipy import signal
 
 def load_image(infilename):
     data = mpimg.imread(infilename)
