@@ -33,27 +33,35 @@ def concatenate_images(img, gt_img):
         cimg = np.concatenate((img8, gt_img_3c), axis=1)
     return cimg
 
-def img_crop_train(im, w, h, step = 8):
-    list_patches = []
-    imgwidth = im.shape[0]
-    imgheight = im.shape[1]
-    is_2d = len(im.shape) < 3
-    for i in range(0,imgheight - step, step):
-        for j in range(0,imgwidth - step, step):
-            if is_2d:
-                im_patch = im[j:j+w, i:i+h]
+def get_rotated_images(imgs,rgb=True):
+    """
+    Return the rotated images of one images.
+    If the input image is an not a rgb image,
+    you have to put False in the argument.
+    """
+    rotation = [0,90,180,270]
+    rotated_images = []
+    for img in imgs:
+        for idx,r in enumerate(rotation):
+            if(rgb):
+                rows,cols,_ = img.shape
             else:
-                im_patch = im[j:j+w, i:i+h, :]
-            list_patches.append(im_patch)
-    return list_patches
+                rows,cols = img.shape
+            M = cv2.getRotationMatrix2D((cols/2,rows/2),r,1)
+            dst = cv2.warpAffine(img,M,(cols,rows))
+            rotated_images.append(dst)
+    return rotated_images
 
-def img_crop(im, w, h):
+def img_crop(im, w, h,step = 16):
+    """
+    Return the patches list of an image.
+    """
     list_patches = []
     imgwidth = im.shape[0]
     imgheight = im.shape[1]
     is_2d = len(im.shape) < 3
-    for i in range(0,imgheight,h):
-        for j in range(0,imgwidth,w):
+    for i in range(0,imgheight,step):
+        for j in range(0,imgwidth,step):
             if is_2d:
                 im_patch = im[j:j+w, i:i+h]
             else:
