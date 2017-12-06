@@ -6,6 +6,7 @@ from PIL import Image
 import matplotlib.image as mpimg
 
 import cv2
+from scipy import signal
 
 def load_image(infilename):
     data = mpimg.imread(infilename)
@@ -69,6 +70,22 @@ def img_crop(im, w, h,step = 16):
             list_patches.append(im_patch)
     return list_patches
 
+
+def get_rotated_images(imgs, rgb = True):
+    """ From a list of images, 
+    constructs and returns a list of the 4 rotated images of the input ones."""
+    rotation = [0,90,180,270]
+    rotated_images = []
+    for img in imgs:
+        for idx,r in enumerate(rotation):
+            if(rgb):
+                rows,cols,_ = img.shape
+            else:
+                rows,cols = img.shape
+            M = cv2.getRotationMatrix2D((cols/2,rows/2),r,1)
+            dst = cv2.warpAffine(img,M,(cols,rows))
+            rotated_images.append(dst)
+    return rotated_images
 
 # ***** Features extraction *****
 
@@ -220,6 +237,37 @@ def standardize_data(x):
     x = x / std_x
     return x, mean_x, std_x
 
+
+def postprocess(img):
+    """ Postprocessing of the predictions
+    Modify isolated patchs """
+    [dim_x, dim_y] = img.shape
+    kernel = np.ones((3,3),np.float32)
+    kernel[1,1] = 0
+    
+    filtered_img = signal.convolve2d(img, kernel)
+    postprocess_img = img
+    
+    for i in range(0, dim_y):
+        for j in range(0, dim_x):
+            if img[i,j] == 1:
+                if filtered_img[i,j] < 2 :
+                    # If a patch is predicted as road, 
+                    # but less than 2 neighbors are also predicted road : 
+                    # Then we consider the patch not to be road
+                    postprocess_img[i,j] = 0
+                    
+            elif img[i,j] == 0:
+                    # If a patch is predicted as NOT road, 
+                    # but more than 7 neighbors are predicted road : 
+                    # Then we consider the patch to be road
+                if filtered_img[i,j] >= 7 :
+                    postprocess_img[i,j] = 1
+    
+    return postprocess_img
+
+
+
 # ***** Convert array of labels to an image *****
 
 def label_to_img(imgwidth, imgheight, w, h, labels):
@@ -250,8 +298,9 @@ def create_submission(y_pred, submission_filename, patch_size = 16, images_size 
     with open(submission_filename, 'w') as f:
         f.write('id,prediction\n')
         for i in range(y_pred.shape[0]):
-            for j in range(y_pred.shape[1]):
-                for k in range(y_pred.shape[2]):
-                    name = '{:03d}_{}_{},{}'.format(i+1, j * patch_size, k * patch_size, int(y_pred[i,j,k]))
+            img = y_pred[i]
+            for j in range(img.shape[0]):
+                for k in range(img.shape[1]):
+                    name = '{:03d}_{}_{},{}'.format(i + 1, j * patch_size, k * patch_size, int(img[j,k]))
                     f.write(name + '\n')
-    
+             
