@@ -39,10 +39,9 @@ def concatenate_images(img, gt_img):
 def get_transformed_images(imgs):
     """
     From a list of images, constructs and returns
-    a list of the 4 rotated images plur 2 fliped images of the input ones.
+    a list of the 4 rotated images plus 1 fliped image of the input ones.
     """
     rotations = [0, 90, 180, 270]
-    flips = [0, -1]
     transformed_images = []
     for img in imgs:
         # Let's rotate images
@@ -55,11 +54,9 @@ def get_transformed_images(imgs):
             M = cv2.getRotationMatrix2D((cols/2, rows/2), rotation, 1)
             dst = cv2.warpAffine(img, M, (cols, rows))
             transformed_images.append(dst)
-
-            # Let's flip images
-            for flip in flips:
-                transformed_images.append(cv2.flip(dst.copy(), flip))
-
+            # Let's flip the image
+            transformed_images.append(cv2.flip(dst.copy(), 0))
+    
     return transformed_images
 
 
