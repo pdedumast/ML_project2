@@ -18,34 +18,6 @@ from helpers import *
 #                                        #
 ##########################################
 
-def weight_variable(shape, name=None):
-    """Create a weight variable with appropriate initialization."""
-    return tf.Variable(tf.truncated_normal(shape, stddev=0.1), name = name)
-
-   
-def bias_variable(shape, name=None):
-    """Create a bias variable with appropriate initialization."""
-    return tf.Variable(tf.constant(0.1, shape=shape),name = name)
-
-
-# Model.
-def model(data, weightsDict):
-
-    # First layer
-    with tf.name_scope('FullyConnected1'):
-        h_fc1 = tf.matmul(data, weightsDict['W_fc1']) + weightsDict['b_fc1']
-        h_relu1 = tf.nn.relu(h_fc1)
-    
-    # Second Layre
-    with tf.name_scope('FullyConnected2'):
-        h_fc2 = tf.matmul(h_relu1, weightsDict['W_fc2']) + weightsDict['b_fc2']
-        valren = h_fc2
-        
-    return valren, weightsDict
-
-
-
-
 
 ##########################################
 #                                        #
@@ -84,13 +56,13 @@ RECORDING_STEP = 1000
 IMG_PATCH_SIZE = 16
 
 # Extract patches from a given image
-def img_crop(im, w, h):
+def img_crop(im, w, h, step = 16):
     list_patches = []
     imgwidth = im.shape[0]
     imgheight = im.shape[1]
     is_2d = len(im.shape) < 3
-    for i in range(0,imgheight,h):
-        for j in range(0,imgwidth,w):
+    for i in range(0,imgheight, step):
+        for j in range(0,imgwidth, step):
             if is_2d:
                 im_patch = im[j:j+w, i:i+h]
             else:
@@ -98,7 +70,7 @@ def img_crop(im, w, h):
             list_patches.append(im_patch)
     return list_patches
 
-def extract_data(filename, num_images):
+def extract_data_train(filename, num_images):
     """Extract the images into a 4D tensor [image index, y, x, channels].
     Values are rescaled from [0, 255] down to [-0.5, 0.5].
     """
@@ -112,19 +84,53 @@ def extract_data(filename, num_images):
             imgs.append(img)
         else:
             print ('File ' + image_filename + ' does not exist')
-
+        
+    step = 2
+        
     num_images = len(imgs)
     IMG_WIDTH = imgs[0].shape[0]
     IMG_HEIGHT = imgs[0].shape[1]
     N_PATCHES_PER_IMAGE = (IMG_WIDTH/IMG_PATCH_SIZE)*(IMG_HEIGHT/IMG_PATCH_SIZE)
 
-    img_patches = [img_crop(imgs[i], IMG_PATCH_SIZE, IMG_PATCH_SIZE) for i in range(num_images)]
+    img_patches = [img_crop(imgs[i], IMG_PATCH_SIZE, IMG_PATCH_SIZE, step) for i in range(num_images)]    
     data = [img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))]
-    
+
     data = np.asarray([ extract_features(data[i]) for i in range(len(data))])
 
     return data
+      
+
+def extract_data_test(filename, num_images):
+    """Extract the images into a 4D tensor [image index, y, x, channels].
+    Values are rescaled from [0, 255] down to [-0.5, 0.5].
+    """  
+    imgs = []
+    listnames = []
         
+    test_names = [(filename + '/' + t + '/' + t + '.png') for t in os.listdir(filename)]
+    for img in test_names:
+        if os.path.isfile(img):
+            print ('Loading ' + img)
+            listnames.append(os.path.basename(img))
+            img = mpimg.imread(img)
+            imgs.append(img)
+        else:
+            print ('File ' + img + ' does not exist')    
+            
+    listnames = [int(liste_name[i].split('_')[1].split('.')[0]) for i in range(len(liste_name))]
+
+    # Get index of how to sort data
+    p = np.argsort(listnames)
+    imgs = imgs[p,:]
+    
+    img_patches = [img_crop(imgs[i], IMG_PATCH_SIZE, IMG_PATCH_SIZE) for i in range(num_images)]    
+    data = [img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))]
+
+    data = np.asarray([ extract_features(data[i]) for i in range(len(data))])
+    
+    return data
+    
+
 # Assign a label to a patch v
 def value_to_class(v):
     foreground_threshold = 0.25 # percentage of pixels > 1 required to assign a foreground label to a patch
@@ -135,7 +141,7 @@ def value_to_class(v):
         return [1, 0]
 
 # Extract label images
-def extract_labels(filename, num_images):
+def extract_labels(filename, num_images, train = False):
     """Extract the labels into a 1-hot matrix [image index, label index]."""
     gt_imgs = []
     for i in range(1, num_images+1):
@@ -149,7 +155,13 @@ def extract_labels(filename, num_images):
             print ('File ' + image_filename + ' does not exist')
 
     num_images = len(gt_imgs)
-    gt_patches = [img_crop(gt_imgs[i], IMG_PATCH_SIZE, IMG_PATCH_SIZE) for i in range(num_images)]
+    
+    if train: 
+        step = 2
+    else:
+        step = 16
+    gt_patches = [img_crop(gt_imgs[i], IMG_PATCH_SIZE, IMG_PATCH_SIZE, step) for i in range(num_images)]
+    
     data = np.asarray([gt_patches[i][j] for i in range(len(gt_patches)) for j in range(len(gt_patches[i]))])
     labels = np.asarray([value_to_class(np.mean(data[i])) for i in range(len(data))])
 
