@@ -36,24 +36,32 @@ def concatenate_images(img, gt_img):
         cimg = np.concatenate((img8, gt_img_3c), axis=1)
     return cimg
 
-def get_rotated_images(imgs,rgb=True):
+def get_transformed_images(imgs):
     """
-    Return the rotated images of one images.
-    If the input image is an not a rgb image,
-    you have to put False in the argument.
+    From a list of images, constructs and returns
+    a list of the 4 rotated images plur 2 fliped images of the input ones.
     """
-    rotation = [0,90,180,270]
-    rotated_images = []
+    rotations = [0, 90, 180, 270]
+    flips = [0, -1]
+    transformed_images = []
     for img in imgs:
-        for idx,r in enumerate(rotation):
-            if(rgb):
-                rows,cols,_ = img.shape
+        # Let's rotate images
+        for rotation in rotations:
+            # Check if it is a rgb or a b&w picture
+            if(len(img.shape)==3):
+                rows, cols, _ = img.shape
             else:
-                rows,cols = img.shape
-            M = cv2.getRotationMatrix2D((cols/2,rows/2),r,1)
-            dst = cv2.warpAffine(img,M,(cols,rows))
-            rotated_images.append(dst)
-    return rotated_images
+                rows, cols = img.shape
+            M = cv2.getRotationMatrix2D((cols/2, rows/2), rotation, 1)
+            dst = cv2.warpAffine(img, M, (cols, rows))
+            transformed_images.append(dst)
+
+            # Let's flip images
+            for flip in flips:
+                transformed_images.append(cv2.flip(dst.copy(), flip))
+
+    return transformed_images
+
 
 def img_crop(im, w, h,step = 16):
     """
@@ -80,22 +88,6 @@ def polynomial_augmentation(X,polynomial_degree= 3):
         polynomial = PolynomialFeatures(polynomial_degree)
         return polynomial.fit_transform(X)
 
-
-def get_rotated_images(imgs, rgb = True):
-    """ From a list of images,
-    constructs and returns a list of the 4 rotated images of the input ones."""
-    rotation = [0,90,180,270]
-    rotated_images = []
-    for img in imgs:
-        for idx,r in enumerate(rotation):
-            if(rgb):
-                rows,cols,_ = img.shape
-            else:
-                rows,cols = img.shape
-            M = cv2.getRotationMatrix2D((cols/2,rows/2),r,1)
-            dst = cv2.warpAffine(img,M,(cols,rows))
-            rotated_images.append(dst)
-    return rotated_images
 
 # ***** Features extraction *****
 
