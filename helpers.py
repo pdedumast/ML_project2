@@ -10,6 +10,15 @@ from sklearn.preprocessing import PolynomialFeatures
 import cv2
 from scipy import signal
 
+
+
+############################################
+#                                          #
+#      Functions for Image Management      #
+#                                          #
+############################################
+
+
 def load_image(infilename):
     data = mpimg.imread(infilename)
     return data
@@ -36,6 +45,25 @@ def concatenate_images(img, gt_img):
         cimg = np.concatenate((img8, gt_img_3c), axis=1)
     return cimg
 
+
+def img_crop(im, w, h,step = 16):
+    """
+    Return the patches list of an image.’
+    """
+    list_patches = []
+    imgwidth = im.shape[0]
+    imgheight = im.shape[1]
+    is_2d = len(im.shape) < 3
+    for i in range(0,imgheight,step):
+        for j in range(0,imgwidth,step):
+            if is_2d:
+                im_patch = im[j:j+w, i:i+h]
+            else:
+                im_patch = im[j:j+w, i:i+h, :]
+            list_patches.append(im_patch)
+    return list_patches
+
+
 def get_transformed_images(imgs):
     """
     From a list of images, constructs and returns
@@ -60,33 +88,11 @@ def get_transformed_images(imgs):
     return transformed_images
 
 
-def img_crop(im, w, h,step = 16):
-    """
-    Return the patches list of an image.’
-    """
-    list_patches = []
-    imgwidth = im.shape[0]
-    imgheight = im.shape[1]
-    is_2d = len(im.shape) < 3
-    for i in range(0,imgheight,step):
-        for j in range(0,imgwidth,step):
-            if is_2d:
-                im_patch = im[j:j+w, i:i+h]
-            else:
-                im_patch = im[j:j+w, i:i+h, :]
-            list_patches.append(im_patch)
-    return list_patches
-
-def polynomial_augmentation(X,polynomial_degree= 3):
-        """
-        Fit the dataset using a polynomial augmentation.
-        By default the augmentation degree is 3.
-        """
-        polynomial = PolynomialFeatures(polynomial_degree)
-        return polynomial.fit_transform(X)
-
-
-# ***** Features extraction *****
+###############################################
+#                                             #
+#      Functions for Features Extraction      #
+#                                             #
+###############################################
 
 def extract_Sobel_filter(data_in):
     """ Function to run Sobel filters (x and y)
@@ -135,8 +141,13 @@ def extract_Laplacian_filter(data_in):
 
     return laplacian8u
 
-# Extract mean and var of each layer in the 3rd dimension
+
 def extract_features(img):
+    """ 
+    Add Layer for Sobel Filters in 3rd dim
+    return vector of mean and var of each layer in the 3rd dimension
+
+    """
     res_Sobel = extract_Sobel_filter(img)
     # res_Laplacian = extract_Laplacian_filter(img)
     data_out = np.concatenate((img, res_Sobel), axis = 2)
@@ -163,8 +174,19 @@ def extract_img_features(filename, patch_size = 16):
     X = np.asarray([ extract_features(img_patches[i]) for i in range(len(img_patches))])
     return X
 
+
+def polynomial_augmentation(X, polynomial_degree = 2):
+        """
+        Fit the dataset using a polynomial augmentation.
+        By default the augmentation degree is 3.
+        """
+        polynomial = PolynomialFeatures(polynomial_degree)
+        return polynomial.fit_transform(X)
+
 def features_augmentation(X):
+    X = polynomial_augmentation(X)
     feat = np.zeros([X.shape[0], X.shape[1] + 1])
+    
     for j in range(X.shape[0]):
         feat[j,:] = np.concatenate(([1],X[j,:]))
     return feat
@@ -256,18 +278,22 @@ def postprocess(img):
                     # Then we consider the patch not to be road
                     postprocess_img[i,j] = 0
 
-            elif img[i,j] == 0:
+            #elif img[i,j] == 0:
                     # If a patch is predicted as NOT road,
                     # but more than 7 neighbors are predicted road :
                     # Then we consider the patch to be road
-                if filtered_img[i,j] >= 7 :
-                    postprocess_img[i,j] = 1
+                #if filtered_img[i,j] >= 7 :
+                   # postprocess_img[i,j] = 1
 
     return postprocess_img
 
 
 
-# ***** Convert array of labels to an image *****
+###############################################
+#                                             #
+#           Functions for Submission          #
+#                                             #
+###############################################
 
 def label_to_img(imgwidth, imgheight, w, h, labels):
     im = np.zeros([imgwidth, imgheight])
@@ -289,6 +315,8 @@ def make_img_overlay(img, predicted_img):
     overlay = Image.fromarray(color_mask, 'RGB').convert("RGBA")
     new_img = Image.blend(background, overlay, 0.2)
     return new_img
+
+
 
 def create_submission(y_pred, submission_filename, patch_size = 16, images_size = 608):
     n_patches = images_size // patch_size
