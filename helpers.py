@@ -88,41 +88,11 @@ def get_transformed_images(imgs):
     return transformed_images
 
 
-<<<<<<< HEAD
-def img_crop(im, w, h,step = 16):
-    """
-    Return the patches list of an image.’
-    """
-    list_patches = []
-    imgwidth = im.shape[0]
-    imgheight = im.shape[1]
-    is_2d = len(im.shape) < 3
-    for i in range(0,imgheight,step):
-        for j in range(0,imgwidth,step):
-            if is_2d:
-                im_patch = im[j:j+w, i:i+h]
-            else:
-                im_patch = im[j:j+w, i:i+h, :]
-            list_patches.append(im_patch)
-    return list_patches
-
-def polynomial_augmentation(X,polynomial_degree= 4):
-        """
-        Fit the dataset using a polynomial augmentation.
-        By default the augmentation degree is 4.
-        """
-        polynomial = PolynomialFeatures(polynomial_degree)
-        return polynomial.fit_transform(X)
-
-
-# ***** Features extraction *****
-=======
 ###############################################
 #                                             #
 #      Functions for Features Extraction      #
 #                                             #
 ###############################################
->>>>>>> 4de912ab6c3b193508d61b17ada95a869b04a3f1
 
 def extract_Sobel_filter(data_in):
     """ Function to run Sobel filters (x and y)
