@@ -77,10 +77,10 @@ def img_crop(im, w, h,step = 16):
             list_patches.append(im_patch)
     return list_patches
 
-def polynomial_augmentation(X,polynomial_degree= 3):
+def polynomial_augmentation(X,polynomial_degree= 4):
         """
         Fit the dataset using a polynomial augmentation.
-        By default the augmentation degree is 3.
+        By default the augmentation degree is 4.
         """
         polynomial = PolynomialFeatures(polynomial_degree)
         return polynomial.fit_transform(X)
