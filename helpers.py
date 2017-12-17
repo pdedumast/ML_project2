@@ -94,6 +94,16 @@ def get_transformed_images(imgs):
 #                                             #
 ###############################################
 
+# percentage of pixels > 1 required to assign a foreground label to a patch
+
+def value_to_class(v):
+    threshold = 0.25
+    df = np.sum(v)
+    if df > threshold:
+        return 1
+    else:
+        return 0
+
 def extract_Sobel_filter(data_in):
     """ Function to run Sobel filters (x and y)
         parameters: - original image
@@ -141,18 +151,33 @@ def extract_Laplacian_filter(data_in):
 
     return laplacian8u
 
+def extract_gray_image(data_in):
+    """ Function to get gray scale image in correct shape
+        parameters: - original image
+        return:     - grayscale image
+    """
+    gray_image = cv2.cvtColor(data_in, cv2.COLOR_BGR2GRAY)
+
+    one_layer_shape = [gray_image.shape[0], gray_image.shape[1], 1]
+    data_out = np.reshape(gray_image, one_layer_shape)
+    
+    return data_out
 
 def extract_features(img):
     """ 
-    Add Layer for Sobel Filters in 3rd dim
+    Add chanels for Sobel Filters in 3rd dim and grayscale image
     return vector of mean and var of each layer in the 3rd dimension
 
     """
+    gray_img = extract_gray_image(img)
+    img = np.concatenate((img, gray_img), axis = 2)
+    
     res_Sobel = extract_Sobel_filter(img)
+    img = np.concatenate((img, res_Sobel), axis = 2)
+    
     # res_Laplacian = extract_Laplacian_filter(img)
-    data_out = np.concatenate((img, res_Sobel), axis = 2)
-    img = data_out
-
+    # img = np.concatenate((img, res_Laplacian), axis = 2)
+    
     feat_m = np.mean(img, axis=(0,1))
     feat_v = np.var(img, axis=(0,1))
     feat = np.append(feat_m, feat_v)
@@ -174,22 +199,13 @@ def extract_img_features(filename, patch_size = 16):
     X = np.asarray([ extract_features(img_patches[i]) for i in range(len(img_patches))])
     return X
 
-
-def polynomial_augmentation(X, polynomial_degree = 2):
-        """
-        Fit the dataset using a polynomial augmentation.
-        By default the augmentation degree is 3.
-        """
-        polynomial = PolynomialFeatures(polynomial_degree)
-        return polynomial.fit_transform(X)
-
-def features_augmentation(X):
-    X = polynomial_augmentation(X)
-    feat = np.zeros([X.shape[0], X.shape[1] + 1])
-    
-    for j in range(X.shape[0]):
-        feat[j,:] = np.concatenate(([1],X[j,:]))
-    return feat
+def features_augmentation(X, polynomial_degree = 2):
+    """
+    Fit the dataset using a polynomial augmentation.
+    By default the augmentation degree is 2.
+    """
+    polynomial = PolynomialFeatures(polynomial_degree)
+    return polynomial.fit_transform(X)
 
 def normalize(X):
     for i in range(X.shape[0]):
