@@ -170,9 +170,9 @@ def extract_features(img):
 
     """
     gray_img = extract_gray_image(img)
-    img = np.concatenate((img, gray_img), axis = 2)
-    
     res_Sobel = extract_Sobel_filter(img)
+    
+    img = np.concatenate((img, gray_img), axis = 2)
     img = np.concatenate((img, res_Sobel), axis = 2)
     
     # res_Laplacian = extract_Laplacian_filter(img)
@@ -204,7 +204,7 @@ def features_augmentation(X, polynomial_degree = 2):
     Fit the dataset using a polynomial augmentation.
     By default the augmentation degree is 2.
     """
-    polynomial = PolynomialFeatures(polynomial_degree)
+    polynomial = PolynomialFeatures(polynomial_degree, interaction_only=False, include_bias=True)
     return polynomial.fit_transform(X)
 
 def normalize(X):
