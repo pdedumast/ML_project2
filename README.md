@@ -1,5 +1,7 @@
 # Project Road Segmentation
 
+Collaborators:
+
 - Mathilde Guillaumot 
 - Priscille Guerrier de Dumast
 - Thibaut Chamard
