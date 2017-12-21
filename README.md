@@ -25,6 +25,7 @@ helpers_LogReg.py: helpers needed to run the run_LogReg_CV.py and run_LogReg_eva
 runCNN.py: run used to perform best score on Kaggle
 run_LogReg_CV.py: /// A COMPLETER ///
 run_LogReg_eval.py: /// A COMPLETER ///
+README.md: read me file
 ```
 
 As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network. 
@@ -38,7 +39,7 @@ runCNN.py
 run_LogReg_CV.py
 run_LogReg_eval.py
 data/ : - training/
-       - test_set_images/
+        - test_set_images/
 ```
 Running the runCNN.py file will automatically create a csv file called "submissionCNN.csv" ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
 Running the run_LogReg_eval.py file will automatically create a csv file called "submissionLogReg.csv" /// A VERIFIER ///
