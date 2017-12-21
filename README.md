@@ -23,7 +23,7 @@ In this repo, you can find the following architecture of files:
 As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network. 
 You can find both py files to run and their relatives helper functions in the relative files "helpers.py" and "helpersCNN.py".
 They need to be in the root folder from where the python file is ran. You also need to have the data folder located in the root folder to properly run the programs. 
-Running the runCNN.py file will automatically create a csv file called "predictionsCNN.csv"
+Running the runCNN.py file will automatically create a csv file called "submissionCNN.csv"
 
 Running in python in the temrinal with command line: `python runCNN.py`
 
