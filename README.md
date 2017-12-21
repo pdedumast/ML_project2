@@ -22,7 +22,7 @@ In this repo, you can find the following architecture of files:
 ```
 helpersCNN.py: helpers needed to run the runCNN.py file
 helpers_LogReg.py: helpers needed to run the run_LogReg_CV.py and run_LogReg_eval.py files
-runCNN.py: run used to perform best score on Kaggle
+run.py: run used to perform best score on Kaggle by training the CNN
 run_LogReg_CV.py: /// A COMPLETER ///
 run_LogReg_eval.py: /// A COMPLETER ///
 README.md: read me file
@@ -35,16 +35,16 @@ Recap, folder should look like:
 ```
 helpersCNN.py
 helpers_LogReg.py
-runCNN.py
+run.py
 run_LogReg_CV.py
 run_LogReg_eval.py
 data/ : - training/
         - test_set_images/
 ```
-Running the `runCNN.py` file will automatically create a csv file called `submissionCNN.csv` ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
+Running the `run.py` file will automatically create a csv file called `submissionCNN.csv` ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
 Running the `run_LogReg_eval.py` file will automatically create a csv file called `submissionLogReg.csv` /// A VERIFIER ///
 
-Simply execute in the terminal the following command line: `python runCNN.py`
+Simply execute in the terminal the following command line: `python run.py`
 
 Python installation guidelines at https://www.python.org and install packages using pip https://docs.python.org/3.5/installing/
 * Python packages used when running the CNN:
@@ -54,7 +54,7 @@ python: version 3.6.1
 matplotlib: version 2.0.2
 numpy: version 1.12.1
 scipy: version 0.19.0
-Pillow: version 4.1.1
+pillow: version 4.1.1
 tensorflow: version 1.4.0
 sklearn: version 0.18.1
 ```
