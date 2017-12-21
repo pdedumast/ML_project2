@@ -80,8 +80,8 @@ The time of computation is above 3 hours in the configuration of our CNN on our 
 From the root directory, you can train our Logistic Regression model by running the command:
 `python run_LogReg_eval.py`
 This will produce two csv files for submission:
-  - `submission_LogReg.csv` which is the first classification issued by the logistic regression.
-  - `submission_LogReg_pp.csv` which contains the rectified predictions issued by the logistic regression, after running the postprocessing step.
+    - `submission_LogReg.csv` which is the first classification issued by the logistic regression.
+    - `submission_LogReg_pp.csv` which contains the rectified predictions issued by the logistic regression, after running the postprocessing step.
 
 
 # <a name="results"></a>Results
