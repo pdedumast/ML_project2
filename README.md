@@ -6,15 +6,13 @@
 
 # Table of Contents
 
-* [Team Members](#team-members)
+* [Introduction](#introduction)
 
-# <a name="team-members"></a>Team Members
-* "J. Jesus. P. Aguinaga" <admin@listforks.com>
+# <a name="introduction"></a>Introduction
+* This repo contains our work on the road segmentation project from the Machine Learning Course at EPFL. 
 
-For this choice of project task, we provide a set of satellite images acquired from GoogleMaps.
-We also provide ground-truth images where each pixel is labeled as road or background. 
-
-Your task is to train a classifier to segment roads in these images, i.e. assigns a label `road=1, background=0` to each pixel.
+For this project task, we have been provided a set of satellite images acquired from GoogleMaps and their ground-truth images where each pixel is labeled as road or background. 
+We were tasked to train a classifier to segment roads in these images, i.e. assigns a label `road=1, background=0` to each pixel.
 
 Submission system environment setup:
 
