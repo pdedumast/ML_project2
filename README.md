@@ -36,7 +36,6 @@ Running in python in the temrinal with command line: `python runCNN.py`
  Pillow : version 4.1.1
  tensorflow : version 1.4.0```
  
- 
  The time of computation is above 3 hours in this configuration on our machine with 8GB of RAM, avoid running other programs while training the CNN.
 
 # <a name="results"></a>Results
