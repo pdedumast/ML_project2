@@ -1,6 +1,4 @@
-
 import numpy as np
-import matplotlib.pyplot as plt
 import os,sys
 from PIL import Image
 import matplotlib.image as mpimg
@@ -48,7 +46,7 @@ def concatenate_images(img, gt_img):
 
 def img_crop(im, w, h,step = 16):
     """
-    Return the patches list of an image.’
+    Return the patches list of an image.
     """
     list_patches = []
     imgwidth = im.shape[0]
@@ -64,38 +62,14 @@ def img_crop(im, w, h,step = 16):
     return list_patches
 
 
-def get_transformed_images(imgs):
-    """
-    From a list of images, constructs and returns
-    a list of the 4 rotated images plus 1 fliped image of the input ones.
-    """
-    rotations = [0, 90, 180, 270]
-    transformed_images = []
-    for img in imgs:
-        # Let's rotate images
-        for rotation in rotations:
-            # Check if it is a rgb or a b&w picture
-            if(len(img.shape)==3):
-                rows, cols, _ = img.shape
-            else:
-                rows, cols = img.shape
-            M = cv2.getRotationMatrix2D((cols/2, rows/2), rotation, 1)
-            dst = cv2.warpAffine(img, M, (cols, rows))
-            transformed_images.append(dst)
-            # Let's flip the image
-            transformed_images.append(cv2.flip(dst.copy(), 0))
-    
-    return transformed_images
-
-
 ###############################################
 #                                             #
 #      Functions for Features Extraction      #
 #                                             #
 ###############################################
 
-# percentage of pixels > 1 required to assign a foreground label to a patch
 
+# percentage of pixels > 1 required to assign a foreground label to a patch
 def value_to_class(v):
     threshold = 0.25
     df = np.sum(v)
@@ -184,12 +158,6 @@ def extract_features(img):
 
     return feat
 
-# Extract 2-dimensional features consisting of average gray color as well as variance
-def extract_features_2d(img):
-    feat_m = np.mean(img)
-    feat_v = np.var(img)
-    feat = np.append(feat_m, feat_v)
-    return feat
 
 # Extract features for a given image
 def extract_img_features(filename, patch_size = 16):
@@ -207,77 +175,11 @@ def features_augmentation(X, polynomial_degree = 2):
     polynomial = PolynomialFeatures(polynomial_degree, interaction_only=False, include_bias=True)
     return polynomial.fit_transform(X)
 
-def normalize(X):
-    for i in range(X.shape[0]):
-        d = X[i,:,:]
-        d -= np.mean(d)
-        d /= np.linalg.norm(d)
-
-        # Update value
-        X[i] = d
-        return X
-
-def demean_images(imgs):
-    ''' Demean the input images'''
-    mean_vec = np.zeros((3,1))
-    for img in imgs:
-        is_2d = len(img.shape) < 3
-        if(is_2d):
-            img -= np.mean(img)
-        else:
-            mean_vec[0] = np.mean(img[:,:,0])
-            img[:,:,0] -= np.mean(img[:,:,0])
-
-            mean_vec[1] = np.mean(img[:,:,1])
-            img[:,:,1] -= np.mean(img[:,:,1])
-
-            mean_vec[2] = np.mean(img[:,:,2])
-            img[:,:,2] -= np.mean(img[:,:,2])
-
-    demean_imgs = imgs
-    return demean_imgs, mean_vec
-
-def normalize_images(imgs):
-    ''' Normalize the input images'''
-    std_vec = np.zeros((3,1))
-
-    for img in imgs:
-        is_2d = len(img.shape) < 3
-        if(is_2d):
-            img /= np.std(img)
-        else:
-            std_vec[0] = np.std(img[:,:,0])
-            img[:,:,0] /= np.std(img[:,:,0])
-
-            std_vec[1] = np.std(img[:,:,1])
-            img[:,:,1] /= np.std(img[:,:,1])
-
-            std_vec[2] = np.std(img[:,:,2])
-            img[:,:,2] /= np.std(img[:,:,2])
-
-    normalized_imgs = imgs
-    return normalized_imgs, std_vec
-
-def standardize(imgs):
-    ''' Demean and normalize the input images'''
-    demean_imgs, mean_vec = demean_images(imgs)
-    normalized_imgs, std_vec = normalize_images(demean_imgs)
-
-    standardized_imgs = normalized_imgs
-    return standardized_imgs, mean_vec, std_vec
-
-def standardize_data(x):
-    """Standardize the original data set."""
-    mean_x = np.mean(x)
-    x = x - mean_x
-    std_x = np.std(x)
-    x = x / std_x
-    return x, mean_x, std_x
 
 
 def postprocess(img):
     """ Postprocessing of the predictions
-    Modify isolated patchs """
+    Modify isolated road patchs to background """
     [dim_x, dim_y] = img.shape
     kernel = np.ones((3,3),np.float32)
     kernel[1,1] = 0
@@ -302,7 +204,6 @@ def postprocess(img):
                    # postprocess_img[i,j] = 1
 
     return postprocess_img
-
 
 
 ###############################################
@@ -331,7 +232,6 @@ def make_img_overlay(img, predicted_img):
     overlay = Image.fromarray(color_mask, 'RGB').convert("RGBA")
     new_img = Image.blend(background, overlay, 0.2)
     return new_img
-
 
 
 def create_submission(y_pred, submission_filename, patch_size = 16, images_size = 608):

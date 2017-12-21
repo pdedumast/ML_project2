@@ -2,7 +2,7 @@ import matplotlib.image as mpimg
 import numpy as np
 import matplotlib.pyplot as plt
 
-from helpers import *
+from helpers_LogReg import *
 from sklearn import linear_model
 from sklearn.metrics import confusion_matrix
 
