@@ -1,6 +1,6 @@
 # Project Road Segmentation
 
-Collaborators:
+Contributors:
 
 - Mathilde Guillaumot
 - Priscille Guerrier de Dumast
@@ -16,7 +16,7 @@ Collaborators:
 # <a name="introduction"></a>Introduction
 This repo contains our work on the road segmentation project from the Machine Learning Course at EPFL.
 For this project task, we have been provided a set of satellite images acquired from GoogleMaps and their ground-truth images where each pixel is labeled as road or background.
-We were tasked to train a classifier to segment roads in these images, i.e. assigns a label `road=1, background=0` to each pixel.
+We were tasked to train a classifier to segment roads in these images, i.e. assigns a label `road=1`, `background=0` to each pixel.
 
 # <a name="content"></a>Content
 
@@ -36,7 +36,7 @@ In this repo, you can find the following architecture of files:
 As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network.
 You can find both python files to run and their relatives helper functions in the relative files in this archive. They need to be in the root folder from where the python file is ran.
 
-You also need to create a `data/` folder in the root directory to properly run the programs in which you will paste the training and test sets (downloadable [here]( https://www.kaggle.com/c/epfml17-segmentation/data) ). Your architecture should be `root_folder/data/training/` and `root_folder/data/test_set_images`.
+You also need to create a `/data` folder in the root directory to properly run the programs in which you will paste the training and test sets (downloadable [here]( https://www.kaggle.com/c/epfml17-segmentation/data) ). Your architecture should be `/root_folder/data/training` and `/root_folder/data/test_set_images`.
 
 Recap, root directory should look like:
 
