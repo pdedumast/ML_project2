@@ -19,7 +19,8 @@ We were tasked to train a classifier to segment roads in these images, i.e. assi
 
 # <a name="setup"></a>Environment Setup
 In this repo, you can find the following architecture of files:
-```helpersCNN.py: helpers needed to run the runCNN.py file
+```
+helpersCNN.py: helpers needed to run the runCNN.py file
 helpers_LogReg.py: helpers needed to run the run_LogReg_CV.py and run_LogReg_eval.py files
 runCNN.py: run used to perform best score on Kaggle
 run_LogReg_CV.py: /// A COMPLETER ///
@@ -28,9 +29,10 @@ run_LogReg_eval.py: /// A COMPLETER ///
 
 As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network. 
 You can find both py files to run and their relatives helper functions in the relative files in this archive.
-They need to be in the root folder from where the python file is ran. You also need to create a `data/` folder in the root folder to properly run the programs in which you will paste the training and test sets (download at https://www.kaggle.com/c/epfml17-segmentation/data). Your architecture should be `root_foler/data/training/` and `root_folder/data/test_set_images`.
+They need to be in the root folder from where the python file is ran. You also need to create a `data/` folder in the root folder to properly run the programs in which you will paste the training and test sets (download at https://www.kaggle.com/c/epfml17-segmentation/data). Your architecture should be `root_folder/data/training/` and `root_folder/data/test_set_images`.
 Recap, folder should look like:
-```helpersCNN.py
+```
+helpersCNN.py
 helpers_LogReg.py
 runCNN.py
 run_LogReg_CV.py
