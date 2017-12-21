@@ -41,7 +41,7 @@ run_LogReg_eval.py
 data/ : - training/
         - test_set_images/
 ```
-Running the `run.py` file will automatically create a csv file called `submissionCNN.csv` ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
+Running the `run.py` file (training of CNN) will automatically create a csv file called `submissionCNN.csv` ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
 Running the `run_LogReg_eval.py` file will automatically create a csv file called `submissionLogReg.csv` /// A VERIFIER ///
 
 Simply execute in the terminal the following command line: `python run.py`
