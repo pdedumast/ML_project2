@@ -27,7 +27,7 @@ Running the runCNN.py file will automatically create a csv file called "submissi
 
 Running in python in the temrinal with command line: `python runCNN.py`
 
-Install python installation guidelines at https://www.python.org and install packages using pip https://docs.python.org/3.5/installing/
+Python installation guidelines at https://www.python.org and install packages using pip https://docs.python.org/3.5/installing/
 * Python packages used when running the CNN:
 
 ```python: version 3.6.1
