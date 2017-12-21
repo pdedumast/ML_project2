@@ -24,6 +24,15 @@ As mentioned in the report, we have worked both on a logistic regression and the
 You can find both py files to run and their relatives helper functions in the relative files "helpers.py" and "helpersCNN.py".
 They need to be in the root folder from where the python file is ran. You also need to have the data folder located in the root folder to properly run the programs. 
 Running the runCNN.py file will automatically create a csv file called "predictionsCNN.csv"
+Running in python in the temrinal with command line: `python runCNN.y`
+
+* Python packages used when running the CNN:
+ `python: version 3.6.1
+ matplotlib : version 2.0.2
+ numpy : version 1.12.1
+ scipy : version 0.19.0
+ Pillow : version 4.1.1
+ tensorflow : version 1.4.0`
 
 # <a name="results"></a>Results
 
