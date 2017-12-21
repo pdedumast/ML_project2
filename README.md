@@ -41,24 +41,25 @@ run_LogReg_eval.py
 data/ : - training/
         - test_set_images/
 ```
-Running the runCNN.py file will automatically create a csv file called "submissionCNN.csv" ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
-Running the run_LogReg_eval.py file will automatically create a csv file called "submissionLogReg.csv" /// A VERIFIER ///
+Running the runCNN.py file will automatically create a csv file called `submissionCNN.csv` ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
+Running the run_LogReg_eval.py file will automatically create a csv file called `submissionLogReg.csv` /// A VERIFIER ///
 
-Running in python in the temrinal with command line: `python runCNN.py`
+Simply execute in the terminal the following command line: `python runCNN.py`
 
 Python installation guidelines at https://www.python.org and install packages using pip https://docs.python.org/3.5/installing/
 * Python packages used when running the CNN:
 
-```python: version 3.6.1
- matplotlib: version 2.0.2
- numpy: version 1.12.1
- scipy: version 0.19.0
- Pillow: version 4.1.1
- tensorflow: version 1.4.0
- sklearn: version 0.18.1
- ```
+```
+python: version 3.6.1
+matplotlib: version 2.0.2
+numpy: version 1.12.1
+scipy: version 0.19.0
+Pillow: version 4.1.1
+tensorflow: version 1.4.0
+sklearn: version 0.18.1
+```
  
-The time of computation is above 3 hours in this configuration on our machine with 8GB of RAM, avoid running other programs while training the CNN.
+The time of computation is above 3 hours in the configuration of our CNN on our machine with 8GB of RAM, avoid running other programs while training the CNN.
 
 # <a name="results"></a>Results
 
