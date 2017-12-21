@@ -23,10 +23,11 @@ In this repo, you can find the following architecture of files:
 As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network. 
 You can find both py files to run and their relatives helper functions in the relative files "helpers.py" and "helpersCNN.py".
 They need to be in the root folder from where the python file is ran. You also need to have the data folder located in the root folder to properly run the programs. 
-Running the runCNN.py file will automatically create a csv file called "predictionsCNN.csv"
+Running the runCNN.py file will automatically create a csv file called "submissionCNN.csv"
 
 Running in python in the temrinal with command line: `python runCNN.py`
 
+Python installation guidelines at https://www.python.org and install packages using pip https://docs.python.org/3.5/installing/
 * Python packages used when running the CNN:
 
 ```python: version 3.6.1
@@ -42,9 +43,9 @@ Running in python in the temrinal with command line: `python runCNN.py`
 
 # <a name="results"></a>Results
 
-![Picture](https://github.com/pdedumast/ML_project2/blob/master/results.png)
+![Picture](https://github.com/pdedumast/ML_project2/blob/master/display/results_CNN.png)
 
-![Picture](https://github.com/pdedumast/ML_project2/blob/master/f1scores.png)
+![Picture](https://github.com/pdedumast/ML_project2/blob/master/display/f1scores_CNN.png)
 
 Above is the kind of final result we have when having trained the CNN for 10000 iterations in our basic setup. We also plot the curves representing evolution of F1-Score for both the training and validation sets in regard of the number of iterations.
 
