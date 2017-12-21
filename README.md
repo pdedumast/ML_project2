@@ -21,12 +21,13 @@ We were tasked to train a classifier to segment roads in these images, i.e. assi
 # <a name="content"></a>Content
 
 In this repo, you can find the following architecture of files:
-
+```
 `helpersCNN.py`: Contains the helper functions to run our CNN model, in `run.py`
 `helpers_LogReg.py`: Contains the helper functions to run our Logistic Regression model
 `run.py`: CNN giving the best score on Kaggle (model used for the final submission)
 `run_LogReg_CV.py`: Cross validation used to identify the best parameters for the Logistic Regression model
 `run_LogReg_eval.py`: Logistic Regression model giving the best score
+```
 
 # <a name="setup"></a>Environment Setup
 
