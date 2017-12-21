@@ -52,7 +52,7 @@ data/training/
 
 ### Settings
 
-This project is developped in `Python 3.5` (See installation guidelines [here](https://www.python.org)
+This project is developped in `Python 3.5` (See installation guidelines [here](https://www.python.org)).
 * Python packages used when running our models:
 ```
 matplotlib: version 2.0.2
