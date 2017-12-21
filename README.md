@@ -22,11 +22,11 @@ We were tasked to train a classifier to segment roads in these images, i.e. assi
 
 In this repo, you can find the following architecture of files:
 ```
-`helpersCNN.py`: Contains the helper functions to run our CNN model, in `run.py`
-`helpers_LogReg.py`: Contains the helper functions to run our Logistic Regression model
-`run.py`: CNN giving the best score on Kaggle (model used for the final submission)
-`run_LogReg_CV.py`: Cross validation used to identify the best parameters for the Logistic Regression model
-`run_LogReg_eval.py`: Logistic Regression model giving the best score
+helpersCNN.py: Contains the helper functions to run our CNN model, in run.py
+helpers_LogReg.py: Contains the helper functions to run our Logistic Regression model
+run.py: CNN giving the best score on Kaggle (model used for the final submission)
+run_LogReg_CV.py: Cross validation used to identify the best parameters for the Logistic Regression model
+run_LogReg_eval.py: Logistic Regression model giving the best score
 ```
 
 # <a name="setup"></a>Environment Setup
@@ -68,18 +68,20 @@ open-cv: version 3.3.0
 ### Program execution
 
 * Main model : Convolutional Neural Network
-From the root directory, you can train our CNN, as well as classifying using it by running the command:
+
+From the root directory, you can train our CNN and predict the labels of test images patches by running the command:
 `python run.py`
 This will produce a csv file called `submissionCNN.csv` ready to be submitted on Kaggle. It is this one which will produce the final score on kaggle.
 
 The time of computation is above 3 hours in the configuration of our CNN on our machine with 8GB of RAM, avoid running other programs while training the CNN.
 
 * Logistic Regression
+
 From the root directory, you can train our Logistic Regression model by running the command:
 `python run_LogReg_eval.py`
-This will produce two csv file for submission
-  - `submission_LogReg.csv` which is the first classification issue by the logistic regression.
-  - `submission_LogReg_pp.csv` which is the rectified prediction issue by the logistic regression, after running a postprocessing.
+This will produce two csv files for submission:
+  - `submission_LogReg.csv` which is the first classification issued by the logistic regression.
+  - `submission_LogReg_pp.csv` which contains the rectified predictions issued by the logistic regression, after running the postprocessing step.
 
 
 # <a name="results"></a>Results
