@@ -28,7 +28,7 @@ run_LogReg_eval.py: /// A COMPLETER ///
 
 As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network. 
 You can find both py files to run and their relatives helper functions in the relative files in this archive.
-They need to be in the root folder from where the python file is ran. You also need to create a 'data' folder in the root folder to properly run the programs in which you will paste the training and test sets (download at https://www.kaggle.com/c/epfml17-segmentation/data). Your architecture should be 'root_foler/data/training/' and 'root_folder/data/test_set_images'.
+They need to be in the root folder from where the python file is ran. You also need to create a `data/` folder in the root folder to properly run the programs in which you will paste the training and test sets (download at https://www.kaggle.com/c/epfml17-segmentation/data). Your architecture should be `root_foler/data/training/` and `root_folder/data/test_set_images`.
 Recap, folder should look like:
 ```helpersCNN.py
 helpers_LogReg.py
@@ -38,7 +38,7 @@ run_LogReg_eval.py
 data/ : - training/
        - test_set_images/
 ```
-Running the runCNN.py file will automatically create a csv file called "submissionCNN.csv"
+Running the runCNN.py file will automatically create a csv file called "submissionCNN.csv" ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
 Running the run_LogReg_eval.py file will automatically create a csv file called "submissionLogReg.csv" /// A VERIFIER ///
 
 Running in python in the temrinal with command line: `python runCNN.py`
