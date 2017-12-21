@@ -117,11 +117,18 @@ def extract_data_test(filename, num_images):
         else:
             print ('File ' + img + ' does not exist')    
             
-    listnames = [int(liste_name[i].split('_')[1].split('.')[0]) for i in range(len(liste_name))]
+    # Get permutation to get test data in correct order
+    order = [int(listnames[i].split('_')[1].split('.')[0]) for i in range(len(listnames))]
+    p = np.argsort(order)
 
-    # Get index of how to sort data
-    p = np.argsort(listnames)
-    imgs = imgs[p,:]
+    # Load data and reorder them
+    imgs = [load_image(test_names[i]) for i in range(num_images)]
+    imgs = [imgs[i] for i in p]
+
+
+    # # Get index of how to sort data
+    # p = np.argsort(listnames)
+    # imgs = imgs[p,:]
     
     img_patches = [img_crop(imgs[i], IMG_PATCH_SIZE, IMG_PATCH_SIZE) for i in range(num_images)]    
     data = [img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))]

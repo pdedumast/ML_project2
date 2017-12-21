@@ -282,8 +282,8 @@ def postprocess(img):
     kernel = np.ones((3,3),np.float32)
     kernel[1,1] = 0
 
-    filtered_img = signal.convolve2d(img, kernel)
-    postprocess_img = img
+    filtered_img = signal.convolve2d(img, kernel,mode ="same",boundary = 'symm')
+    postprocess_img = img.copy()
 
     for i in range(0, dim_y):
         for j in range(0, dim_x):
