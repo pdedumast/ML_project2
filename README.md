@@ -4,8 +4,12 @@
 - Priscille Guerrier de Dumast
 - Thibaut Chamard
 
-# Table of contents 
-<a name="team-members"></a>Team Members
+# Table of Contents
+
+* [Team Members](#team-members)
+
+# <a name="team-members"></a>Team Members
+* "J. Jesus. P. Aguinaga" <admin@listforks.com>
 
 For this choice of project task, we provide a set of satellite images acquired from GoogleMaps.
 We also provide ground-truth images where each pixel is labeled as road or background. 
