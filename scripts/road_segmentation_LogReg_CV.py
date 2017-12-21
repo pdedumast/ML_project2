@@ -26,7 +26,7 @@ except:
 
 
 # Loaded a set of images
-root_dir = "../training/"
+root_dir = "data/training/"
 image_dir = root_dir + "images/"
 gt_dir = root_dir + "groundtruth/"
 
