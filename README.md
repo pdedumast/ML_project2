@@ -2,64 +2,84 @@
 
 Collaborators:
 
-- Mathilde Guillaumot 
+- Mathilde Guillaumot
 - Priscille Guerrier de Dumast
 - Thibaut Chamard
 
 # Table of Contents
 
 * [Introduction](#introduction)
+* [Content](#content)
 * [Environment Setup](#setup)
 * [Results](#results)
 
 # <a name="introduction"></a>Introduction
-This repo contains our work on the road segmentation project from the Machine Learning Course at EPFL. 
-For this project task, we have been provided a set of satellite images acquired from GoogleMaps and their ground-truth images where each pixel is labeled as road or background. 
+This repo contains our work on the road segmentation project from the Machine Learning Course at EPFL.
+For this project task, we have been provided a set of satellite images acquired from GoogleMaps and their ground-truth images where each pixel is labeled as road or background.
 We were tasked to train a classifier to segment roads in these images, i.e. assigns a label `road=1, background=0` to each pixel.
 
-# <a name="setup"></a>Environment Setup
-In this repo, you can find the following architecture of files:
-```
-helpersCNN.py: helpers needed to run the runCNN.py file
-helpers_LogReg.py: helpers needed to run the run_LogReg_CV.py and run_LogReg_eval.py files
-run.py: run used to perform best score on Kaggle by training the CNN
-run_LogReg_CV.py: /// A COMPLETER ///
-run_LogReg_eval.py: /// A COMPLETER ///
-README.md: read me file
-```
+# <a name="content"></a>Content
 
-As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network. 
-You can find both py files to run and their relatives helper functions in the relative files in this archive.
-They need to be in the root folder from where the python file is ran. You also need to create a `data/` folder in the root folder to properly run the programs in which you will paste the training and test sets (download at https://www.kaggle.com/c/epfml17-segmentation/data). Your architecture should be `root_folder/data/training/` and `root_folder/data/test_set_images`.
-Recap, folder should look like:
+In this repo, you can find the following architecture of files:
+
+`helpersCNN.py`: Contains the helper functions to run our CNN model, in `run.py`
+`helpers_LogReg.py`: Contains the helper functions to run our Logistic Regression model
+`run.py`: CNN giving the best score on Kaggle (model used for the final submission)
+`run_LogReg_CV.py`: Cross validation used to identify the best parameters for the Logistic Regression model
+`run_LogReg_eval.py`: Logistic Regression model giving the best score
+
+# <a name="setup"></a>Environment Setup
+
+
+### Architecture
+
+As mentioned in the report, we have worked both on a logistic regression and the training of a Convolutional Neural Network.
+You can find both python files to run and their relatives helper functions in the relative files in this archive. They need to be in the root folder from where the python file is ran.
+
+You also need to create a `data/` folder in the root directory to properly run the programs in which you will paste the training and test sets (downloadable [here]( https://www.kaggle.com/c/epfml17-segmentation/data) ). Your architecture should be `root_folder/data/training/` and `root_folder/data/test_set_images`.
+
+Recap, root directory should look like:
+
 ```
 helpersCNN.py
 helpers_LogReg.py
 run.py
 run_LogReg_CV.py
 run_LogReg_eval.py
-data/ : - training/
-        - test_set_images/
+data/training/
+    /test_set_images/
 ```
-Running the `run.py` file (training of CNN) will automatically create a csv file called `submissionCNN.csv` ready for submission on Kaggle, it is this one which will produce the final score on kaggle.
-Running the `run_LogReg_eval.py` file will automatically create a csv file called `submissionLogReg.csv` /// A VERIFIER ///
 
-Simply execute in the terminal the following command line: `python run.py`
+### Settings
 
-Python installation guidelines at https://www.python.org and install packages using pip https://docs.python.org/3.5/installing/
-* Python packages used when running the CNN:
-
+This project is developped in `Python 3.5` (See installation guidelines [here](https://www.python.org)
+* Python packages used when running our models:
 ```
-python: version 3.6.1
 matplotlib: version 2.0.2
 numpy: version 1.12.1
 scipy: version 0.19.0
 pillow: version 4.1.1
 tensorflow: version 1.4.0
-sklearn: version 0.18.1
+scikit-learn: version 0.18.1
+open-cv: version 3.3.0
 ```
- 
+
+### Program execution
+
+* Main model : Convolutional Neural Network
+From the root directory, you can train our CNN, as well as classifying using it by running the command:
+`python run.py`
+This will produce a csv file called `submissionCNN.csv` ready to be submitted on Kaggle. It is this one which will produce the final score on kaggle.
+
 The time of computation is above 3 hours in the configuration of our CNN on our machine with 8GB of RAM, avoid running other programs while training the CNN.
+
+* Logistic Regression
+From the root directory, you can train our Logistic Regression model by running the command:
+`python run_LogReg_eval.py`
+This will produce two csv file for submission
+  - `submission_LogReg.csv` which is the first classification issue by the logistic regression.
+  - `submission_LogReg_pp.csv` which is the rectified prediction issue by the logistic regression, after running a postprocessing.
+
 
 # <a name="results"></a>Results
 
