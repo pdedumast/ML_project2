@@ -288,7 +288,7 @@ def postprocess(img):
     for i in range(0, dim_y):
         for j in range(0, dim_x):
             if img[i,j] == 1:
-                if filtered_img[i,j] < 2 :
+                if filtered_img[i,j] < 3 :
                     # If a patch is predicted as road,
                     # but less than 2 neighbors are also predicted road :
                     # Then we consider the patch not to be road
