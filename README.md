@@ -25,9 +25,9 @@ Running the runCNN.py file will automatically create a csv file called "predicti
 
 # <a name="results"></a>Results
 
-![Picture]()
+![Picture](https://github.com/pdedumast/ML_project2/blob/master/results.png)
 
-![Picture]()
+![Picture](https://github.com/pdedumast/ML_project2/blob/master/f1scores.png)
 
 Above is the kind of final result we have when having trained the CNN for 10000 iterations in our basic setup. We also plot the curves representing evolution of F1-Score for both the training and validation sets in regard of the number of iterations.
 
