@@ -42,9 +42,9 @@ Running in python in the temrinal with command line: `python runCNN.py`
 
 # <a name="results"></a>Results
 
-![Picture](https://github.com/pdedumast/ML_project2/blob/master/results.png)
+![Picture](https://github.com/pdedumast/ML_project2/blob/master/display/results_CNN.png)
 
-![Picture](https://github.com/pdedumast/ML_project2/blob/master/f1scores.png)
+![Picture](https://github.com/pdedumast/ML_project2/blob/master/display/f1scores_CNN.png)
 
 Above is the kind of final result we have when having trained the CNN for 10000 iterations in our basic setup. We also plot the curves representing evolution of F1-Score for both the training and validation sets in regard of the number of iterations.
 
