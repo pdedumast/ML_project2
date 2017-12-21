@@ -83,6 +83,8 @@ This will produce two csv file for submission
 
 # <a name="results"></a>Results
 
+Final score on Kaggle by TEAM CPE: 0.84628
+
 ![Picture](https://github.com/pdedumast/ML_project2/blob/master/display/results_CNN.png)
 
 ![Picture](https://github.com/pdedumast/ML_project2/blob/master/display/f1scores_CNN.png)
