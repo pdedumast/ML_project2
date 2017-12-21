@@ -37,9 +37,9 @@ run_LogReg_CV.py
 run_LogReg_eval.py
 data : - training
        - test_set_images
-       ```
-
+```
 Running the runCNN.py file will automatically create a csv file called "submissionCNN.csv"
+Running the run_LogReg_eval.py file will automatically create a csv file called "submissionLogReg.csv" /// A VERIFIER ///
 
 Running in python in the temrinal with command line: `python runCNN.py`
 
@@ -55,7 +55,7 @@ Python installation guidelines at https://www.python.org and install packages us
  sklearn: version 0.18.1
  ```
  
- The time of computation is above 3 hours in this configuration on our machine with 8GB of RAM, avoid running other programs while training the CNN.
+The time of computation is above 3 hours in this configuration on our machine with 8GB of RAM, avoid running other programs while training the CNN.
 
 # <a name="results"></a>Results
 
