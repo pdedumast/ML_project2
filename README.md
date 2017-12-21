@@ -23,6 +23,14 @@ You can find both py files to run and their relatives helper functions in the re
 They need to be in the root folder from where the python file is ran. You also need to have the data folder located in the root folder to properly run the programs. 
 Running the runCNN.py file will automatically create a csv file called "predictionsCNN.csv"
 
+# <a name="results"></a>Results
+
+![Picture]()
+
+![Picture]()
+
+Above is the kind of final result we have when having trained the CNN for 10000 iterations in our basic setup. We also plot the curves representing evolution of F1-Score for both the training and validation sets in regard of the number of iterations.
+
 
 Evaluation Metric:
  [https://www.kaggle.com/wiki/MeanFScore]
